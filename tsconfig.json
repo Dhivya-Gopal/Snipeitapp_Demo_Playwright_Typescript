@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "downlevelIteration": true,
+    "strictNullChecks": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "baseUrl": ".", // Base directory for resolving non-relative module names
+    "paths": {
+      "@pages": ["./test/model/pages"],
+      "@api/*": ["./test/model/api/*"]
+    },
+    "allowJs": true,
+    "noEmit": true // ← Disable file emission
+  },
+  "exclude": ["node_modules"]
+}
