@@ -5,6 +5,7 @@ import { CreateNewAssets } from "../pages/CreateNewAssets";
 import { SuccessNotificatiocnInAssetList } from "../pages/SuccessNotificationInAssetList";
 import { AssetDetail } from "../pages/AssetDetail";
 test("Create a new asset and checkout to a user", async ({ page }) => {
+  //Login 
   const loginPageobj = new LoginPage(page);
 
   await loginPageobj.openApplication();
@@ -14,7 +15,7 @@ test("Create a new asset and checkout to a user", async ({ page }) => {
   await page.waitForLoadState("networkidle");
   await homePageobj.clickCreateNewDropDown();
   await homePageobj.clickAssertOption();
-
+//Create a New Asset 
   const createNewAssetsobj = new CreateNewAssets(page);
   await page.waitForLoadState("networkidle");
 
@@ -47,7 +48,8 @@ test("Create a new asset and checkout to a user", async ({ page }) => {
   console.log("Purchase Cost: ", purchaseCost1);
 
   await createNewAssetsobj.clickSaveButton();
-
+  
+// Success message pop upon new asset creation 
   await page.waitForLoadState("networkidle");
   const successNotificationobj = new SuccessNotificatiocnInAssetList(page);
   const notificationText1 =
@@ -55,7 +57,7 @@ test("Create a new asset and checkout to a user", async ({ page }) => {
   console.log("Success Notification Text: ", notificationText1);
 
   await successNotificationobj.clickClickHereToView();
-
+//Asset detail Page
   await page.waitForLoadState("networkidle");
   const assetDetailobj = new AssetDetail(page);
   const assetTagValue2 = await assetDetailobj.getAssetTagValue();
