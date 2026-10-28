@@ -46,9 +46,7 @@ test("Create a new asset and checkout to a user", async ({ page }) => {
   const purchaseCost1 = await createNewAssetsobj.purchaseCostvalue();
   console.log("Purchase Cost: ", purchaseCost1);
 
-  await page.pause();
   await createNewAssetsobj.clickSaveButton();
-  await page.pause();
 
   await page.waitForLoadState("networkidle");
   const successNotificationobj = new SuccessNotificatiocnInAssetList(page);
