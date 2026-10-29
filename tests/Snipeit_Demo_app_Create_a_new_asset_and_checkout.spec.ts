@@ -4,13 +4,29 @@ import { HomePage } from "../pages/HomePage";
 import { CreateNewAssets } from "../pages/CreateNewAssets";
 import { SuccessNotificatiocnInAssetList } from "../pages/SuccessNotificationInAssetList";
 import { AssetDetail } from "../pages/AssetDetail";
+import { AssetHistory } from "../pages/AssetHistory";
+import loginData from "../test-data/Snipeit_Test_Data/Login_Test_Data.json";
+
+type LoginData = {
+  LoginTestData: {
+    UserName: string;
+    Password: string;
+  };
+};
+
+const typedLoginData = loginData as LoginData;
+
 test("Create a new asset and checkout to a user", async ({ page }) => {
   //Login 
   const loginPageobj = new LoginPage(page);
 
   await loginPageobj.openApplication();
-  await loginPageobj.login("admin", "password");
 
+  for (const LoginDataSet in typedLoginData) {
+    const LoginObject = typedLoginData[LoginDataSet as keyof LoginData];
+
+    await loginPageobj.login(LoginObject.UserName, LoginObject.Password);
+  }
   const homePageobj = new HomePage(page);
   await page.waitForLoadState("networkidle");
   await homePageobj.clickCreateNewDropDown();
@@ -65,4 +81,11 @@ test("Create a new asset and checkout to a user", async ({ page }) => {
   console.log("Asset Tag Value in Asset Detail Page: ", assetTagValue2);
 
   await assetDetailobj.clickHistoryTab();
+
+  await page.waitForLoadState("networkidle");
+  await page.pause();
+  const assetHistoryobj = new AssetHistory(page);
+  const HistoryAsset = await assetHistoryobj.getHistoryAssetNumber();
+  expect(HistoryAsset).toBe(assetTagValue1);
+  console.log("History Asset Number:", HistoryAsset);
 });
